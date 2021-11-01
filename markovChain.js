@@ -1,48 +1,39 @@
 const Markov = require('js-markov');
 var markov = new Markov();
-const json = require('./data-whole-poems.json')
-// const csv = require('./kaggle_poem_dataset.csv')
-const parse = require('csv-parse/lib/sync')
-const fs = require('fs')
+const parse = require('csv-parse/lib/sync');
+const fs = require('fs');
 
 
-const csv = fs.readFileSync('./kaggle_poem_dataset.csv')
+const csv = fs.readFileSync('./data/all.csv');
 
-const poems = parse(csv, {
+let poems = parse(csv, {
   columns: true,
-  skip_empty_lines: true
+  skip_empty_lines: true,
 })
 
-let sentences = []
+poems = poems.filter((poem) => {
+  return poem.age == 'Modern' && poem.type.includes("Nature");
+})
+
+let sentences = [];
 
 for(let poem of poems) {
-  // sentences = sentences.concat(poem.Content.split('\n'));
-  sentences = sentences.concat(poem.Content.split(/[.,]/));
+  sentences = sentences.concat(poem.content.split(/[.,?:;]/));
 }
 
 sentences = sentences.map((sentence) => {
-  return sentence.replace('\n', ' ')
+  sentence = sentence.replace(/\r\n|\t|\s\s/g, ' ');
+  sentence = sentence.replace(/\s\s/g, ' ');
+  return sentence.trim();
 })
 
 sentences = sentences.filter((sentence) => {
-  return sentence != ''
+  return sentence != '' && sentence != '\n' && sentence != ' ';
 })
+
 
 // clearing the chain before each run
 markov.clearChain();
-
-// filtering for poems on a certain theme
-// const data = json.data.filter((poem) => {
-//   return poem.categories.includes("contentment");
-// })
-
-
-// // adding the sentences to the chain
-// for(let poem of data) {
-//   for(let sentence of poem.sentences) {
-//     markov.addStates(sentence);
-//   }
-// }
 
 for (let poem of poems) {
   markov.addStates(sentences);
