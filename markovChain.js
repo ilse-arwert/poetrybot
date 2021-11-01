@@ -3,7 +3,9 @@ var markov = new Markov();
 const json = require('./data.json')
 
 // If you are generating words, adding multiple states
-markov.addStates(json.data);
+for(let poem of json.data) {
+  markov.addStates(poem.sentences);
+}
 
   // If you are generating text, adding a single state
 markov.addStates('The weather for tomorrow might be sunny');
