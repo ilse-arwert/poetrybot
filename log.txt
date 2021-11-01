@@ -7,4 +7,13 @@
 > importing poetry
 > markov js takes everything from the same poem?
 > impoved state import 
-> ngram length
+> ngram length -> The longer the more sense the words make, however too long & it becomes boring 
+> data input -> loose sentences vs full poems -> full poems = not as coherent (beginnings & endings not as well recognized)
+
+> black-out poetry?
+> amount of characters generated affects the amount of gibberish
+
+> after looking at the probabilities generated we noticed that everything we have right now is that the possibible options are 
+> kaggle
+> kaggle pre-processing 
+
