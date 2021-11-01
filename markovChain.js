@@ -1,13 +1,9 @@
 const Markov = require('js-markov');
 var markov = new Markov();
+const json = require('./data.json')
 
 // If you are generating words, adding multiple states
-markov.addStates([
-    'Today is sunny',
-    'Today is rainy',
-    'The weather is sunny',
-    'The weather for tomorrow might be rainy'
-  ]);
+markov.addStates(json.data);
 
   // If you are generating text, adding a single state
 markov.addStates('The weather for tomorrow might be sunny');
