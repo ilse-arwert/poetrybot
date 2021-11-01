@@ -2,17 +2,30 @@ const Markov = require('js-markov');
 var markov = new Markov();
 const json = require('./data.json')
 
-// If you are generating words, adding multiple states
-for(let poem of json.data) {
-  markov.addStates(poem.sentences);
+// clearing the chain before each run
+markov.clearChain();
+
+// filtering for poems on a certain theme
+const data = json.data.filter((poem) => {
+  return poem.categories.includes("slice-of-life");
+})
+
+// adding the sentences to the chain
+for(let poem of data) {
+  for(let sentence of poem.sentences) {
+    markov.addStates(sentence);
+  }
 }
 
-markov.train();
+markov.train(6);
 
-// var longText = markov.generate(50);
-var text = markov.generateRandom(150);
-// var possibilities = markov.getPossibilities('Hey');
+let poem = "\n";
+for (let i = 0; i < 5; i++) {
+  var text = markov.generateRandom(150);
+  poem += text + '\n';
+}
 
-console.log(text);
-// console.log(longText);
-// console.log(possibilities);
+// just in case: make sure the cases make sense
+poem = poem.toLocaleLowerCase();
+
+console.log(poem);

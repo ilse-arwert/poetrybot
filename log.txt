@@ -1,0 +1,10 @@
+> markov chain for generation
+> discovery markov js
+> slice of life poetry // maybe even rap
+> slice of life because a computer / algo doesn't know what life is
+
+
+> importing poetry
+> markov js takes everything from the same poem?
+> impoved state import 
+> ngram length
