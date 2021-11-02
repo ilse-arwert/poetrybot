@@ -1,18 +1,56 @@
 const Markov = require('js-markov');
 var markov = new Markov();
-const json = require('./data.json')
+const parse = require('csv-parse/lib/sync');
+const fs = require('fs');
 
-// If you are generating words, adding multiple states
-for(let poem of json.data) {
-  markov.addStates(poem.sentences);
+
+const csv = fs.readFileSync('./data/all.csv');
+
+let poems = parse(csv, {
+  columns: true,
+  skip_empty_lines: true,
+})
+
+poems = poems.filter((poem) => {
+  return poem.age == 'Modern' && poem.type.includes("Nature");
+})
+
+let sentences = [];
+
+for(let poem of poems) {
+  sentences = sentences.concat(poem.content.split(/[.,?:;]/));
 }
 
-markov.train();
+sentences = sentences.map((sentence) => {
+  sentence = sentence.replace(/\r\n|\t|\s\s/g, ' ');
+  sentence = sentence.replace(/\s\s/g, ' ');
+  return sentence.trim();
+})
 
-// var longText = markov.generate(50);
-var text = markov.generateRandom(150);
-// var possibilities = markov.getPossibilities('Hey');
+sentences = sentences.filter((sentence) => {
+  return sentence != '' && sentence != '\n' && sentence != ' ';
+})
 
-console.log(text);
-// console.log(longText);
-// console.log(possibilities);
+
+// clearing the chain before each run
+markov.clearChain();
+
+for (let poem of poems) {
+  markov.addStates(sentences);
+}
+
+markov.train(5);
+
+let poem = "\n";
+for (let i = 0; i < 5; i++) {
+  var text = markov.generateRandom(150);
+  poem += text + '\n';
+}
+
+// make sure the cases make sense
+// TODO: uppercase initial character + uppercase I's
+poem = poem.toLocaleLowerCase();
+
+var prob = markov.getPossibilities('');
+
+console.log(poem);
