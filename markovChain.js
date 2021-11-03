@@ -1,9 +1,9 @@
-const Markov = require('js-markov');
-var markov = new Markov();
+const Markov = require('js-markov'); //NOTE: we might want to switch to RiTa for more consitent results / less post processing
+let markov = new Markov();
 const parse = require('csv-parse/lib/sync');
 const fs = require('fs');
 
-
+// import dataset
 const csv = fs.readFileSync('./data/all.csv');
 
 let poems = parse(csv, {
@@ -11,8 +11,9 @@ let poems = parse(csv, {
   skip_empty_lines: true,
 })
 
+// pre-process dataset
 poems = poems.filter((poem) => {
-  return poem.age == 'Modern' && poem.type.includes("Nature");
+  return poem.age == 'Modern' && poem.type.includes('Nature');
 })
 
 let sentences = [];
@@ -31,26 +32,32 @@ sentences = sentences.filter((sentence) => {
   return sentence != '' && sentence != '\n' && sentence != ' ';
 })
 
-
-// clearing the chain before each run
+// clearing the chain before use
 markov.clearChain();
 
-for (let poem of poems) {
-  markov.addStates(sentences);
-}
+// add data to construct probability matrix
+markov.addStates(sentences);
 
+// generate probability matrix with specified n-gram
 markov.train(5);
 
-let poem = "\n";
+// generate poem of approximately the same length
+let poem = '';
 for (let i = 0; i < 5; i++) {
-  var text = markov.generateRandom(150);
+  let text = markov.generateRandom(150); // generate a sentence and cut it off if a possible end has not been reached after 150 characters
+
+  //sentence based post processing
+  // TODO: check if last word is actual word / existing word from dataset
+  // TODO: remove pharenteces if there is no matching pair
+  text = text.replace(/\r\n|\n|\r|\t/g, ' '); 
+  // TODO: remove double spaces
+  // TODO: uppercase initial character + uppercase I's
+
   poem += text + '\n';
 }
 
-// make sure the cases make sense
-// TODO: uppercase initial character + uppercase I's
+// post post proccessing 
 poem = poem.toLocaleLowerCase();
 
-var prob = markov.getPossibilities('');
-
+// log poem
 console.log(poem);
