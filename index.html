@@ -3,13 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="main.css">
     <title>Shakey</title>
 </head>
 <body>
     <main>
         <section id="poem"></section>
-        <button id="next" class="hidden">next →</button>
+        <button id="next" aria-label="generate new poem" disabled>
+            <span aria-hidden="true">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2 4V10H8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M4.51 15C5.84201 18.7808 9.51384 21.2248 13.5157 20.9945C17.5176 20.7642 20.8848 17.915 21.7742 14.0064C22.6637 10.0978 20.861 6.07214 17.3528 4.1328C13.8447 2.19346 9.47683 2.808 6.64 5.64004L2 10" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+        </button>
     </main>
     <script src="main.js"></script>
 </body>
