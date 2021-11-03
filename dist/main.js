@@ -3,33 +3,18 @@ let nextBtn;
 
 document.addEventListener('DOMContentLoaded', init);
 
-function init() {
+async function init() {
     poemContainer = document.querySelector('#poem');
     nextBtn = document.querySelector('#next');
     nextBtn.addEventListener('click', nextBtnClickHandler);
-    const poem = formatPoem(getPoem());
+    const poem = await getPoem();
     displayPoem(poem);
 }
 
-function getPoem() {
-    //LATER: replace with dynamic call to poem server(?)
-
-    //TODO: randomly select from a couple of poems
-    return `upon the birds swim through i am myself
-    that fine light-house of care massing do
-    being bushes
-    wild processions of light men above brin
-    but look far depart`;
-}
-
-//NOTE: we could do this in the back-end instead and make this function redundand
-function formatPoem(poem) {
-    poem = poem.split('\n');
-    poem = poem.map((sentence) => {
-        return sentence = sentence.trim();
-    })
-
-    return poem;
+async function getPoem() {
+    const res = await fetch('/poem');
+    const data = await res.json();
+    return data.poem;
 }
 
 function addSentence(sentence) {
@@ -79,6 +64,6 @@ function delay(ms) {
 async function nextBtnClickHandler(e) {
     toggleBtnVisibility();
     await removePoem();
-    const poem = formatPoem(getPoem());
+    const poem = await getPoem();
     displayPoem(poem);
 }

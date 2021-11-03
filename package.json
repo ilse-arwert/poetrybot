@@ -1,15 +1,20 @@
 {
-  "name": "poetrybot",
+  "name": "shakey",
   "version": "1.0.0",
   "description": "",
-  "main": "markovChain.js",
+  "main": "server.js",
   "dependencies": {
     "csv-parse": "^4.16.3",
+    "fastify": "^3.22.1",
+    "fastify-static": "^4.5.0",
     "rita": "^2.4.501"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "nodemon": "^2.0.14"
+  },
   "scripts": {
-    "start": "node markovChain.js",
+    "start": "node server.js",
+    "dev": "nodemon --watch dist --watch server.js -e js,css,html",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
