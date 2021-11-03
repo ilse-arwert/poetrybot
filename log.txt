@@ -17,3 +17,7 @@
 > kaggle
 > kaggle pre-processing 
 > kaggle other dataset & more pre-processing
+
+> create simple website/display
+> switch to RiTa
+> simple post-processing

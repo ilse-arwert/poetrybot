@@ -5,7 +5,7 @@
   "main": "markovChain.js",
   "dependencies": {
     "csv-parse": "^4.16.3",
-    "js-markov": "^3.0.3"
+    "rita": "^2.4.501"
   },
   "devDependencies": {},
   "scripts": {
